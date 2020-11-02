@@ -1,25 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Provider } from 'react-redux';
+import Cart from './components/Cart';
+import Filter from './components/Filter';
+import Products from './components/Products';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import store from './store';
+
+class App extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
+    }
+  }
+
+  createOrder = (order) =>{
+    alert("Need to save order for "+order.name);
+  }
+
+  // addToCart = (product) =>{
+  //   const cartItems = this.state.cartItems.slice();
+  //   let alreadyInCart = false;
+  //   cartItems.forEach(item =>{
+  //     if(item._id === product._id)
+  //     {
+  //       item.count++;
+  //       alreadyInCart = true;
+  //     }
+  //   });
+  //   if(!alreadyInCart)
+  //   {
+  //     cartItems.push({...product, count:1})
+  //   }
+  //   this.setState({
+  //     cartItems
+  //   })
+  //   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  // };
+
+  // removeFromCart = (product) =>{
+  //   const cartItems = this.state.cartItems.slice();
+  //   this.setState({cartItems:cartItems.filter(x =>x._id !== product._id) });
+  //   localStorage.setItem("cartItems", JSON.stringify(cartItems.filter(x =>x._id !== product._id)));
+  // }
+
+
+  render(){
+    return (
+      <Provider store={store} >
+      <div className="grid-container">
+        <header className="App-header">
+          <a href="/">React E-Commerce</a>
+        </header>
+        <main>
+          <div className="content">
+            <div className="main">
+                <Filter/>
+                <Products />
+            </div>
+            <div className="sidebar">
+                <Cart />
+            </div>
+          </div>
+          
+        </main>
+        <footer>
+          All right is reserved.
+        </footer>
+      </div>
+      </Provider>
+    );
+  }
+  
 }
 
 export default App;
